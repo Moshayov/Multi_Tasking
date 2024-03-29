@@ -51,4 +51,57 @@ home = document.querySelector("#home"),
   pwShowHide = document.querySelectorAll(".pw_hide"),
   loginButton = document.querySelector("#login_now"),
   signup_Button = document.querySelector("#signup_Now");
+  const EXPMINUTES=2;
+  let numOfTry=0;
   home.classList.add("show");
+
+
+loginButton.addEventListener("click", (e) => { 
+    e.preventDefault();
+    let timeExp= isBlocked();
+    if(timeExp!==-1){
+      // Convert milliseconds to seconds
+      var seconds = Math.floor((timeExp / 1000) % 60);
+      // Convert milliseconds to minutes
+      var minutes = Math.floor(timeExp / (1000 * 60));
+      alert(`Too many attempts Try again in ${minutes} minutes and ${seconds} seconds`);
+      return;
+    }
+    let usernameValue =  document.querySelector("#username").value.trim();
+    let passwordValue = document.querySelector("#password_login").value.trim();
+  
+    if (!usernameValue || !passwordValue) {
+      alert("Please enter username and password.");
+      return;
+    }
+  
+    if (authenticateUser(usernameValue, passwordValue)) {
+        localStorage.setItem('username', usernameValue);
+        const users = getUsersFromLocalStorage();
+        const userIndex = users.findIndex(user => user.username === usernameValue);
+        const currentUser = users[userIndex];
+        // קבלת מידע על הזמן הנוכחי
+        const currentDate = new Date();
+        if(currentUser.count==0){
+          updateUser(usernameValue,currentDate);
+          window.location.href = "Games_Home.html";
+        }
+        updateUser(usernameValue,currentDate);
+        displayDateMessage(currentUser.currentDate);
+  
+    } 
+    else {
+        numOfTry++;
+        if(numOfTry>=3){
+          setLocalStorageExpiration('blocked',EXPMINUTES);
+          numOfTry=0;
+          alert(`Too many attempts Try again in ${EXPMINUTES} minutes`);
+        }
+        else{
+          alert("Invalid username or password. Please try again.");
+        }
+    }
+  
+  });
+
+  
