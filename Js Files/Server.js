@@ -1,46 +1,87 @@
 class Server{
+    db;
     constructor(){
         this.db =new DataBase();
 
     }
+    prossess_data(data, dispatcher = (x) => {}){
 
-    receiveRequest(request,username=null,data=null){
-        if(request=== "GETALL"){
-            return this.getAll();
+        var recivedData = JSON.parse(data);
+        
+        if(recivedData["d"].method === 'GET'){
+            if(recivedData["body"] == "usernames"){
+                dispatcher(this.getAll());
+            } 
+            else if(recivedData["body"] == "tasks"){
+                dispatcher(this.getAll_tasks());
+            }
+            else if(recivedData["body"]=="task")
+            {
+                dispatcher(this.getTask(recivedData["d"].task,recivedData["d"].user.username));
+            }
+            else{
+                dispatcher(this.GET(recivedData["d"].user.username));
+            }
+        } 
+        else if(recivedData["d"].method === 'POST' ){
+            if (recivedData["body"]=="add user") {
+                this.post(recivedData["d"].user.username, recivedData["d"].user.password);
+            } 
+            else {
+                this.post_task(recivedData["d"].user.username,  recivedData["d"].task);
+            }
+            //dispatch the event
+            dispatcher();
+        } 
+        else if(recivedData["d"].method === 'PUT'){
+            this.Update(recivedData["d"].user.username, recivedData["d"].task_name,recivedData["d"].task);
+            //dispatch the event
+            dispatcher();
         }
-        else if(request=== "GET"){
-            return this.get(username);
+        else if(recivedData["d"].method == 'DELETE'){
+            this.Deletee(recivedData["d"].user.username, recivedData["d"].task_name);
+            //dispatch the event
+            dispatcher();
         }
-        else if(request=== "POST"){
-            return this.post(username,data);
-        }
-        else if(request=== "PUT"){
-            return this.put(username,data);
-        }
-        else if(request=== "DELETE"){
-            return this.del(task);
-        }
-        else{
-            alert("wrong request : "+ request)
-            return false;
-        }  
+
+        return true;
     }
 
-    get(username) {
-        return this.db.get(username);
+     //create
+     post(username, password){
+        this.db.post(username, password);
     }
+
+    post_task(username, new_task){
+        this.db.post_task(username, new_task);
+     }
+
+    //read
     getAll() {
         return this.db.getAll();
     }
-    post(phoneNumber, data) {
-        console.log("4 server POST to DB ");
-        this.db.post(phoneNumber, data);
-        console.log("7 server return");
+
+    getAll_tasks(username){
+        return this.db.getAll_tasks(username);
     }
-    put(phoneNumber, data) {
-        this.db.put(phoneNumber, data);
+
+    getTask(task_name, user_name){
+        return this.db.getTask(task_name, user_name);
     }
-    del(phoneNumber) {
-        this.db.deletee(phoneNumber);
-    }     
+
+    GET(user_name){
+        return this.db.GET(user_name);
+    }
+
+    //update
+    Update(username, task_name, new_task){
+        return this.db.Update(username, task_name, new_task);
+    }
+    
+    //delete
+    Deletee(username, task_name){
+        return this.db.Deletee(username, task_name);
+    }
+
+    
 }

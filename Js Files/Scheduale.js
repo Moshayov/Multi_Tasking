@@ -1,4 +1,3 @@
-
 const app = {
     pages: [],
     show: new Event('show'),
@@ -47,26 +46,18 @@ document.addEventListener('DOMContentLoaded', app.init);
 home = document.querySelector("#home"),
   formContainer = document.querySelector(".form_container"),
   signupBtn = document.querySelector("#signup"),
-  loginBtn = document.querySelector("#login"),
   pwShowHide = document.querySelectorAll(".pw_hide"),
   loginButton = document.querySelector("#login_now"),
   signup_Button = document.querySelector("#signup_Now");
+  var loginForm = document.getElementById("home");
   const EXPMINUTES=2;
   let numOfTry=0;
-  home.classList.add("show");
+  //home.classList.add("show");
 
 
-loginButton.addEventListener("click", (e) => { 
-    e.preventDefault();
-    let timeExp= isBlocked();
-    if(timeExp!==-1){
-      // Convert milliseconds to seconds
-      var seconds = Math.floor((timeExp / 1000) % 60);
-      // Convert milliseconds to minutes
-      var minutes = Math.floor(timeExp / (1000 * 60));
-      alert(`Too many attempts Try again in ${minutes} minutes and ${seconds} seconds`);
-      return;
-    }
+/*login page*/
+
+function login(){ 
     let usernameValue =  document.querySelector("#username").value.trim();
     let passwordValue = document.querySelector("#password_login").value.trim();
   
@@ -74,34 +65,68 @@ loginButton.addEventListener("click", (e) => {
       alert("Please enter username and password.");
       return;
     }
-  
-    if (authenticateUser(usernameValue, passwordValue)) {
-        localStorage.setItem('username', usernameValue);
-        const users = getUsersFromLocalStorage();
-        const userIndex = users.findIndex(user => user.username === usernameValue);
-        const currentUser = users[userIndex];
-        // קבלת מידע על הזמן הנוכחי
-        const currentDate = new Date();
-        if(currentUser.count==0){
-          updateUser(usernameValue,currentDate);
-          window.location.href = "Games_Home.html";
+    const fxht = new FXMLHttpRequest()
+    fxhr.open("GET", "");
+    fxhr.send("usernames", (user) => {
+        console.log(user);
+        if (user.username == usernameValue&& user.password==passwordValue) {
+            alert("welcome");
+            localStorage.setItem("username", JSON.stringify(username));
+            // Show the todo list
+            console.log("hiiii");
+            loginForm.style.display = "none";
+
+            //todo.style.display = "block";
+            //show_tasks(username);
+        } else {
+            alert("wrong");
         }
-        updateUser(usernameValue,currentDate);
-        displayDateMessage(currentUser.currentDate);
-  
-    } 
-    else {
-        numOfTry++;
-        if(numOfTry>=3){
-          setLocalStorageExpiration('blocked',EXPMINUTES);
-          numOfTry=0;
-          alert(`Too many attempts Try again in ${EXPMINUTES} minutes`);
-        }
-        else{
-          alert("Invalid username or password. Please try again.");
-        }
-    }
-  
+    });
+
+  }
+
+
+  pwShowHide.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      let getPwInput = icon.parentElement.querySelector("input");
+      if (getPwInput.type === "password") {
+        getPwInput.type = "text";
+        icon.classList.replace("uil-eye-slash", "uil-eye");
+      } else {
+        getPwInput.type = "password";
+        icon.classList.replace("uil-eye", "uil-eye-slash");
+      }
+    });
   });
+  
+  function authenticateUser(username, password) {
+    const users = getUsersFromLocalStorage();
+    return users.some(user => user.username == username && user.password == password);
+  }
+
+  function displayDateMessage(date) {
+    let message = "";
+    message = `Last Login: ${date}`;
+    // Create a new div element
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+  
+    // Create content inside the modal
+    modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>${message}</p>
+      </div>
+    `;
+  
+    // Append the modal to the body
+    document.body.appendChild(modal);
+    // Close the modal when the close button is clicked
+    const closeButton = modal.querySelector(".close");
+     closeButton.addEventListener("click", () => {
+      window.location.href = "Games_Home.html";
+    });
+  
+  }
 
   

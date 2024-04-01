@@ -18,11 +18,10 @@
             <div class="multitasking">Multitasking</div>
             <div class="user-info">
               <i class="fas fa-user"></i> <!-- Font Awesome icon for a user -->
-              <span class="user_name">Login </span> <!-- Replace "User Name" with the actual user's name -->
+              <span class="user_name">Login </span> 
             </div>
           </nav>
             <div class="form_container">
-                <div id="Date-message"></div>
                 <!-- Login From -->
                 <div class="form login_form">
                   <form action="#">
@@ -36,7 +35,7 @@
                       <i class="uil uil-lock password"></i>
                       <i class="uil uil-eye-slash pw_hide"></i>
                     </div>
-                    <button class="button" id="login_now"> Login Now</button>
+                    <button class="button" onclick="login()" id="login_now"> Login Now</button>
                     <div class="login_signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
                   </form>
                 </div>
@@ -175,26 +174,61 @@
         </div>
 
         <div class="page" id="EditTask">
-           
-        </div>
-        <div class="page" id="DelTask">
-            <h1>Delete a Contact</h1>
-           
-            <input type="text" name="phone" id="del_phone" placeholder="+1 (555) 1234-567" required />
-            <br><br>
-            <div >
-                <button type="submit" onclick="DelUser()">
-                  Delete this contact
-                </button>
-              </div>
-
-              <br><br>
-            <a href="#" data-target="Contacts" class="nav-link">Contacts Menu</a>
-                
-        </div>
-
+          <div class="modal fade" id="addTaskForm" aria-hidden="true">
+            <div class="modal-dialog taskform">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Create a Task</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="needs-validation" novalidate>
+                    <div class="row">
+                      <div class="mb-3 col-md-6">
+                        <label for="taskName" class="form-label">Task Name</label>
+                        <input type="text" placeholder="Name of task" class="form-control" id="taskName" name="taskName" minlength="5" required>
+                        <div class="invalid-feedback">Requires at least 5 characters.</div>
+                    
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="assignedTo" class="form-label">Assigned To</label>
+                        <input type="text" placeholder="Assigned to" class="form-control" id="assignedTo" name="assignedTo" required>
+                        <div class="invalid-feedback">Requires a name.</div>
+                        
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="dueDate" class="form-label">Due Date</label>
+                        <input type="date" placeholder="Due Date" class="form-control" id="dueDate" name="dueDate" required>
+                        <div class="invalid-feedback">Can't be in the past</div>
+                      
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="taskStatus" class="form-label"> Task Status</label>
+                        <select class="form-select custom-select" aria-label="Default select example" name="taskStatus" id="taskStatus" required>
+                          <option value="" selected>Select Task Status</option>
+                          <option value="1" class="taskStatusToDo">To Do</option>
+                          <option value="2" class="taskStatusInProgress">In Progress</option>
+                          <option value="3" class="taskStatusReview">Review</option>
+                          <option value="4" class="taskStatusDone">Done</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a Task Status</div>
+                       
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="descriptionBox" class="form-label">Description</label>
+                        <textarea type="text" class="form-control" id="descriptionBox" name="description" minlength="5" required></textarea>
+                        <div class="invalid-feedback">Please descibe the task.</div>
+                       
+                      </div>
         
-        
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">Add Task</button>
+                      </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+        </div>       
     </main>
     <script src="../Js Files/Scheduale.js"></script>
     <script src="../Js Files/Database.js"></script>

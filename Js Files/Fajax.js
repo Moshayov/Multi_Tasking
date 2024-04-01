@@ -1,28 +1,45 @@
 
 /*כותבת פה הערות כדי שנבין מה לעשות אחר כך
 בעקרון אנחנו אמורות ליצור בקשה ולשלוח לה אותו פה כאשר המידע עטוף כגיסון על פי סוג הבקשה הוא יפנה לרשת והרשת תפנה לשרת ולאחר מכן יחזור אלינו צריך לחשוב על פי מה ננתח את ההודעה כדי לדעת מאיפה ואיך לקבל תשובות  */
+class FXMLHttpRequest{
+  /* בין 1ל7 המצב של ההועה  זאת אומרת נשלח לשרת התקקבל וכולי */
+  readyState=0;
+  /*התגובה של השרת  */
+  response;
+  /*מחזירה מחרוזת המכילה את התגובה לבקשה כטקסט, או null אם הבקשה לא הצליחה או עדיין לא נשלחה.*/
+  responseText;
+  /*מצין את סוג התגובה */
+  responseType;
+  /* מחזירה את הכתובת הURL */
+  responseURL;
+  /*קוד תגובה */
+  status;
+  statusText;
+  data = {};
 
-const fajax = {
-    send: function(url, method, data, callback) {
-      // Simulate delay to mimic network latency
-      setTimeout(() => {
-        let response;
-        switch (url) {
-          case '/api/getAll':
-            response = JSON.stringify({ data: BaseData.getAll() });
-            break;
-          case '/api/getTask':
-            response = JSON.stringify({ data: BaseData.get_task(data.task_name, data.user_name) });
-            break;
-          case '/api/addTask':
-            BaseData.post(data.task_name, data.user_name);
-            response = JSON.stringify({ message: 'Task added successfully' });
-            break;
-          // Add other cases for different API endpoints
-          default:
-            response = JSON.stringify({ error: 'Invalid URL' });
-        }
-        callback(null, response);
-      }, 500); // Simulate 500ms delay
-    }
-  };
+  open(method, url, isAsync = true, user = null, task=null,task_name="") {
+    this.data = {
+        "method": method,
+        "url": url,
+        "isAsinc": isAsync,
+        "user": user,
+        "task":task,
+        "task_name":task_name
+
+    };
+}
+send(body = "", func = () => { }) {
+  //TODO: send the request via network class
+  let net = new Network();
+  this.readyState=3;
+  const d = this.data
+  if (this.data["isAsinc"]) {
+      net.send_to_server_async(JSON.stringify({ d, body }), func);
+  }
+  else {
+      net.send_to_server(JSON.stringify({ d, body }));
+  }
+}
+  
+}
+

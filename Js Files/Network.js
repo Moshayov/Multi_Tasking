@@ -1,14 +1,12 @@
 class Network {
-    constructor() {
-        this.server=new Server();
-    }
-    sendRequest(request, data) {
-        console.log("3 network send");
-      let server = this.server;
-      let result = server.receiveRequest(request, data);
-      console.log("network result"+"  "+result);
-      if (result != null) {
-        return result;
+  server = new Server();
+      send_to_server_async(data, dispatcher){    
+          this.server.prossess_data(data, dispatcher);
       }
-    }
+  
+      send_to_server(data){
+          let result =  this.server.prossess_data(data);
+          return result;
+      }
   }
+  
