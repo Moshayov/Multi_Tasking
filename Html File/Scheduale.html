@@ -36,7 +36,7 @@
                       <i class="uil uil-eye-slash pw_hide"></i>
                     </div>
                     <button class="button" onclick="login()" id="login_now"> Login Now</button>
-                    <div class="login_signup">Don't have an account? <a href="#" id="signup">Signup</a></div>
+                    <div class="login_signup">Don't have an account? <a href="#"  data-target="Sign_Up" class="nav-link" id="signup">Signup</a></div>
                   </form>
                 </div>
             </div>
@@ -46,6 +46,15 @@
             </div>
         </div>
         <div class="page" id="Sign_Up">
+
+          <nav>
+            <div class="multitasking">Multitasking</div>
+            <div class="user-info">
+              <i class="fas fa-user"></i> <!-- Font Awesome icon for a user -->
+              <span class="user_name">Login </span> 
+            </div>
+          </nav>
+          <div class="form_container_">
              <!-- Signup From -->
              <div class="form signup_form">
                 <form action="#">
@@ -64,9 +73,14 @@
                     <i class="uil uil-lock password"></i>
                     <i class="uil uil-eye-slash pw_hide"></i>
                   </div>
-                  <button class="button" id="signup_Now">Signup Now</button>
-                  <div class="login_signup">Already have an account? <a href="#" id="login">Login</a></div>
+                  <button class="button" onclick="sign_up()" id="signup_Now">Signup Now</button>
+                  <div class="login_signup">Already have an account? <a href="#" data-target="home" class="nav-link" id="login">Login</a></div>
                 </form>
+              </div>
+          </div>
+              <div>
+                <img class="img_left" src="../Images/left.jpeg"/>
+                <img class="img_right" src="../Images/right.jpeg"/>
               </div>
         </div>
         

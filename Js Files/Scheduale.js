@@ -23,41 +23,41 @@ const app = {
         document.getElementById(currentPage).dispatchEvent(app.show);
     },
     pageShown: function(ev){
-        console.log('Page', ev.target.id, 'just shown');
-        let h1 = ev.target.querySelector('h1');
-        h1.classList.add('big')
-        setTimeout((h)=>{
-            h.classList.remove('big');
-        }, 1200, h1);
-    },
+      let currentPage = location.hash.replace('#' ,'');
+      console.log(currentPage);
+     if(currentPage=="Sign_Up"){
+      formContainer = document.querySelector(".form_container");
+     }
+  },
     poppin: function(ev){
-        console.log(location.hash, 'popstate event');
-        let hash = location.hash.replace('#' ,'');
-        document.querySelector('.active').classList.remove('active');
-        document.getElementById(hash).classList.add('active');
-        console.log(hash)
-        //history.pushState({}, currentPage, `#${currentPage}`);
-        document.getElementById(hash).dispatchEvent(app.show);
-    }
+      console.log(location.hash, 'popstate event');
+      let hash = location.hash.replace('#' ,'');
+      document.querySelector('.active').classList.remove('active');
+      document.getElementById(hash).classList.add('active');
+      console.log(hash)
+      history.pushState({}, hash, `#${hash}`);
+      document.getElementById(hash).dispatchEvent(app.show);
+  }
+  
 }
 
 document.addEventListener('DOMContentLoaded', app.init);
 
 home = document.querySelector("#home"),
-  formContainer = document.querySelector(".form_container"),
+  
   signupBtn = document.querySelector("#signup"),
   pwShowHide = document.querySelectorAll(".pw_hide"),
   loginButton = document.querySelector("#login_now"),
   signup_Button = document.querySelector("#signup_Now");
-  var loginForm = document.getElementById("home");
+  var loginForm = document.getElementById("#home");
+  
   const EXPMINUTES=2;
   let numOfTry=0;
-  //home.classList.add("show");
+  home.classList.add("show");
 
-
-/*login page*/
 
 function login(){ 
+    //formContainer.classList.remove("active");
     let usernameValue =  document.querySelector("#username").value.trim();
     let passwordValue = document.querySelector("#password_login").value.trim();
   
@@ -65,7 +65,7 @@ function login(){
       alert("Please enter username and password.");
       return;
     }
-    const fxht = new FXMLHttpRequest()
+    const fxhr = new FXMLHttpRequest()
     fxhr.open("GET", "");
     fxhr.send("usernames", (user) => {
         console.log(user);
@@ -74,7 +74,7 @@ function login(){
             localStorage.setItem("username", JSON.stringify(username));
             // Show the todo list
             console.log("hiiii");
-            loginForm.style.display = "none";
+            //loginForm.style.display = "none";
 
             //todo.style.display = "block";
             //show_tasks(username);
@@ -85,7 +85,59 @@ function login(){
 
   }
 
+  function sign_up(){
+    
+    let flage= false;
+    let usernameValue =  document.querySelector("#username_sign_Up").value.trim();
+    let passwordValue = document.querySelector("#password_signUp").value.trim();
+    let passwordConfirmValue = document.querySelector("#Confirm_password").value.trim();
+    while(!flage)
+    {
+        let usernameValue =  document.querySelector("#username_sign_Up").value.trim();
+        let passwordValue = document.querySelector("#password_signUp").value.trim();
+        let passwordConfirmValue = document.querySelector("#Confirm_password").value.trim();
+        console.log(usernameValue);
+        console.log(passwordConfirmValue);
+        console.log(passwordValue);
+        if (!usernameValue || !passwordValue|| !passwordConfirmValue) {
+          alert("Please enter username  password and password Confirm.");
+          flage=false;
+          break;
+        }
+  
+        if (passwordConfirmValue != passwordValue) {
+          console.log(passwordConfirmValue);
+          console.log(passwordValue);
+          alert("The passwords you entered do not match, please re-enter");
+          
+          flage=false;
+          return;
+        }
+        const fxhr = new FXMLHttpRequest()
+        fxhr.open("GET", "");
+        fxhr.send("usernames", (user) => {
+            console.log(user);
+            if (user.username == usernameValue&& user.password==passwordValue) {
+                alert("the user already exist in the system");
+                localStorage.setItem("username", JSON.stringify(username));
+                console.log("iiii");
+            } else {
+                flage=true;
+              }
+        });
+  }
+  if(flage){
+    let user = new User(usernameValue,passwordValue);
+    fxhr.open("POST", "",true,user,null,null);
+    fxhr.send("add user", (u) => {
+        console.log("the user added suucsefuly");
+    });
+  }
 
+
+
+}
+  
   pwShowHide.forEach((icon) => {
     icon.addEventListener("click", () => {
       let getPwInput = icon.parentElement.querySelector("input");
@@ -98,35 +150,5 @@ function login(){
       }
     });
   });
-  
-  function authenticateUser(username, password) {
-    const users = getUsersFromLocalStorage();
-    return users.some(user => user.username == username && user.password == password);
-  }
 
-  function displayDateMessage(date) {
-    let message = "";
-    message = `Last Login: ${date}`;
-    // Create a new div element
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-  
-    // Create content inside the modal
-    modal.innerHTML = `
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>${message}</p>
-      </div>
-    `;
-  
-    // Append the modal to the body
-    document.body.appendChild(modal);
-    // Close the modal when the close button is clicked
-    const closeButton = modal.querySelector(".close");
-     closeButton.addEventListener("click", () => {
-      window.location.href = "Games_Home.html";
-    });
-  
-  }
 
-  

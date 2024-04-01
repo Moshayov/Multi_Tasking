@@ -1,4 +1,5 @@
-/***body****/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");/***body****/
 body {
     place-items: center;
     height: 100vh;
@@ -34,7 +35,7 @@ body::before {
     display: block; 
 }
 /***Login****/
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -104,7 +105,10 @@ nav {
     pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
   }
-
+  .form_container.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
   .form_container h2 {
     font-size: 22px;
     color: #0b0217;
@@ -187,12 +191,12 @@ nav {
    .form_container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left; 
+    justify-content: center; 
     position: absolute;
     max-width: 320px;
     width: 100%;
-    top: 40%;
-    left:50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%) scale(1.2);
     z-index: 101;
     background: #fff;
@@ -203,6 +207,7 @@ nav {
     pointer-events: none;
     transition: all 0.4s ease-out;
   }
+
   /*Meesage Date*/
 .modal {
     display: flex;
@@ -236,4 +241,15 @@ nav {
     color: black;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  /**Sign Up **/
+
+  .form_container.active .signup_form {
+    display: block;
+  }
+  .login_signup {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
   }
