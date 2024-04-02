@@ -73,7 +73,7 @@ class DataBase{
         const users = this.getAll();
         let newUser =new User(username,password);
         users.push(newUser);
-        saveALL(users);
+        this.saveALL(users);
     }
     /*add new task to the user list */
     post_task(newtask,username) {

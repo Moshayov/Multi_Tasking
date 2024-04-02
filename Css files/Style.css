@@ -288,3 +288,6 @@ nav {
     text-align: center;
     margin-top: 15px;
   }
+  #task_nav{
+    display: none;
+  }
