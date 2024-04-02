@@ -81,7 +81,7 @@ nav {
     width: 100%;
     z-index: 1;
     opacity: 0;
-    /*pointer-events: none;;*/
+    pointer-events: none;
     transition: all 0.5s ease-out;
   }
   #home.show::before {
@@ -203,11 +203,11 @@ nav {
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 0 0 5px white, 0 0 0 8px #7c7b7b;
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
     transition: all 0.4s ease-out;
   }
-
+  
   /*Meesage Date*/
 .modal {
     display: flex;
@@ -244,9 +244,44 @@ nav {
   }
 
   /**Sign Up **/
-
-  .form_container.active .signup_form {
+  .form_container_ {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    position: absolute;
+    max-width: 320px;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.2);
+    z-index: 101;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 5px white, 0 0 0 8px #7c7b7b;
+    opacity: 1;
+    pointer-events: none;
+    transition: all 0.4s ease-out;
+  }
+  .form_container_ a {
+    color: #a16cf7;
+    font-size: 12px;
+  }
+  .form_container_ a:hover {
+    text-decoration: underline;
+  }
+  .form_container_ .button {
+    background: #a16cf7;
+    margin-top: 30px;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 10px;
+  }
+  .form_container_ .signup_form {
     display: block;
+    opacity: 1;
+    pointer-events: auto;
+    
   }
   .login_signup {
     font-size: 12px;
