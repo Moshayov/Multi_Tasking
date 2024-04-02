@@ -18,6 +18,7 @@ const app = {
         let currentPage = ev.target.getAttribute('data-target');
         document.querySelector('.active').classList.remove('active');
         document.getElementById(currentPage).classList.add('active');
+        console.log("nav function")
         console.log(currentPage)
         history.pushState({}, currentPage, `#${currentPage}`);
         document.getElementById(currentPage).dispatchEvent(app.show);
@@ -46,6 +47,7 @@ home = document.querySelector("#home"),
   signup_Button = document.querySelector("#signup_Now"),
   signup = document.querySelector('#Sign_Up'),
   loginForm = document.getElementById("#home");
+ 
   signup.classList.add("show");
   home.classList.add("show");
 
@@ -54,27 +56,37 @@ function login(){
     //formContainer.classList.remove("active");
     let usernameValue =  document.querySelector("#username").value.trim();
     let passwordValue = document.querySelector("#password_login").value.trim();
-  
+    Task_click = document.querySelector("#task_nav");
+    
+    let flage=false;
     if (!usernameValue || !passwordValue) {
       alert("Please enter username and password.");
       return;
     }
     const fxhr = new FXMLHttpRequest()
     fxhr.open("GET", "");
-    fxhr.send("usernames", (user) => {
-        console.log(user);
-        if (user.username == usernameValue&& user.password==passwordValue) {
-            alert("welcome");
-            localStorage.setItem("username", JSON.stringify(username));
-            console.log("hiiii");
-        } else {
-            alert("wrong");
-        }
-    });
+    fxhr.send("usernames", (users) => {
+      users.forEach((user)=> {if (user.username == usernameValue&& user.password==passwordValue) {
+              alert("welcome");
+              flage=true;
+              localStorage.setItem("username", JSON.stringify(user.username));
+              console.log("hiiii");
+            }
+          } )
 
+        if (!flage) {
+          alert("wrong");
+      }
+     
+    });
+    console.log(flage);
+    if (flage) { 
+      console.log("im true and im here")
+      Task_click.style.display='block';
+  }
   }
 
-  function sign_up(){
+function sign_up(){
     let flage= false;
     let usernameValue =  document.querySelector("#username_sign_Up").value.trim();
     let passwordValue = document.querySelector("#password_signUp").value.trim();
@@ -110,12 +122,9 @@ function login(){
     let user = new User(usernameValue,passwordValue);
     fxhr.open("POST", "",true,user,null,null);
     fxhr.send("add user", () => {
-        console.log("the user added suucsefuly");
+        alert("you added suucsefuly");
     });
   }
-
-
-
 }
   
   pwShowHide.forEach((icon) => {
