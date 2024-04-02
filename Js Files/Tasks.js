@@ -13,6 +13,7 @@ const notification = document.getElementById("notification");
 const current_user =get_current_user();
 
 function get_current_user(){
+  const fxhr = new FXMLHttpRequest()
   fxhr.open("GET", "",false);
    return fxhr.send("current_user");
 }
@@ -68,11 +69,27 @@ function populateBoardView() {
 
 function addTask(){
   let task_name = document.querySelector("#task_name").value.trim();
-  let type = document.querySelector("#type").value.trim();
-  let currentDate = new Date();
-  let Date_ = currentDate.toUTCString();
+  let type;
   let description = document.querySelector("#description").value.trim();
-  let task = new Task(task_name,type,Date_,description);
+  let day = document.querySelector("#day").value.trim();
+  let Month = document.querySelector("#Month").value.trim();
+  let year = document.querySelector("#year").value.trim();
+  let currentDate = new Date();
+  currentDate.setDate(day);
+  currentDate.setMonth(Month - 1); // החודשים בתוך האובייקט Date מתחילים מ-0 (ינואר הוא 0, פברואר הוא 1, וכן הלאה)
+  currentDate.setFullYear(year)
+  let radioButtons = document.querySelectorAll('input[type="radio"]');
+  radioButtons.forEach(button => {
+      button.addEventListener('change', function() {
+          // בדיקה אם הרדיו כפתור נבחר
+          if (this.checked) {
+              // השמת הערך שנבחר לתוך משתנה
+            //  let selectedValue = this.value;
+              type = this.value;
+          }
+      });
+  });
+  let task = new Task(task_name,type,currentDate,description);
   //console.log(task);
   const fxhr = new FXMLHttpRequest()
   fxhr.open("POST", "",true,null,task,null,current_user);
@@ -84,14 +101,6 @@ function addTask(){
 }
 
 
-
-// add task
-addTaskCTA.addEventListener("click", () => {
-  setTaskOverlay.classList.remove("hide");
-  activeOverlay = setTaskOverlay;
-  // disable scrolling for content behind the overlay
-  document.body.classList.add("overflow-hidden");
-});
 
 // close buttons inside overlays
 closeButtons.forEach((button) => {
@@ -118,15 +127,4 @@ taskItems.forEach((task) => {
   });
 });
 
-// delete a task
-deleteTaskCTA.addEventListener("click", () => {
-  activeOverlay.classList.add("hide");
-  activeOverlay = null;
-  // reenable scrolling
-  document.body.classList.remove("overflow-hidden");
-  // show notification & hide it after a while
-  notification.classList.add("show");
-  setTimeout(() => {
-    notification.classList.remove("show");
-  }, 3000);
-});
+

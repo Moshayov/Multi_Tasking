@@ -240,11 +240,4 @@ body {
   margin-top: var(--space-32);
 }
 
-/* media queries */
-@media (min-width: 768px) {
-  .divided-inputs-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: var(--space-16);
-  }
-}
+
