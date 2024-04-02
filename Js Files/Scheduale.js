@@ -52,8 +52,9 @@ home = document.querySelector("#home"),
   home.classList.add("show");
 
 
-function login(){ 
+function login(event){ 
     //formContainer.classList.remove("active");
+    event.preventDefault();
     let usernameValue =  document.querySelector("#username").value.trim();
     let passwordValue = document.querySelector("#password_login").value.trim();
     Task_click = document.querySelector("#task_nav");
@@ -71,6 +72,7 @@ function login(){
               flage=true;
               localStorage.setItem("username", JSON.stringify(user.username));
               console.log("hiiii");
+              window.location.href = "#Tasks";
             }
           } )
 
@@ -80,10 +82,6 @@ function login(){
      
     });
     console.log(flage);
-    if (flage) { 
-      console.log("im true and im here")
-      Task_click.style.display='block';
-  }
   }
 
 function sign_up(){

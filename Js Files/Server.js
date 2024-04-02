@@ -13,11 +13,14 @@ class Server{
                 dispatcher(this.getAll());
             } 
             else if(recivedData["body"] == "tasks"){
-                dispatcher(this.getAll_tasks());
+                dispatcher(this.getAll_tasks(recivedData["d"].user_name));
+            }
+            else if(recivedData["body"] == "current_user"){
+                dispatcher(this.get_current_user());
             }
             else if(recivedData["body"]=="task")
             {
-                dispatcher(this.getTask(recivedData["d"].task,recivedData["d"].user.username));
+                dispatcher(this.getTask(recivedData["d"].task,recivedData["d"].user.user_name));
             }
             else{
                 dispatcher(this.GET(recivedData["d"].user.username));
@@ -57,6 +60,10 @@ class Server{
      }
 
     //read
+    get_current_user(){
+        return this.db.get_current_user();
+    }
+
     getAll() {
         return this.db.getAll();
     }

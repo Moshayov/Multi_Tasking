@@ -17,14 +17,15 @@ class FXMLHttpRequest{
   statusText;
   data = {};
 
-  open(method, url, isAsync = true, user = null, task=null,task_name="") {
+  open(method, url, isAsync = true, user = null, task=null,task_name="",user_name=" ") {
     this.data = {
         "method": method,
         "url": url,
         "isAsinc": isAsync,
         "user": user,
         "task":task,
-        "task_name":task_name
+        "task_name":task_name,
+        "user_name":user_name
 
     };
 }

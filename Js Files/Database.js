@@ -44,6 +44,10 @@ class DataBase{
         const user = this.GET(user_name);
         return user.tasks;
     }
+    get_current_user(){
+        const usersJSON = localStorage.getItem('username');
+        return usersJSON ? JSON.parse(usersJSON): ' ';
+    }
 
     /***UPDATE*****/
 
