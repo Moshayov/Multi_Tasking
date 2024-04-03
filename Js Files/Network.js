@@ -6,6 +6,8 @@ class Network {
   
       send_to_server(data){
           let result =  this.server.prossess_data(data);
+          console.log(result);
+          console.log("im in send to server")
           return result;
       }
   }

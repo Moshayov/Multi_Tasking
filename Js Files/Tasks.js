@@ -87,30 +87,6 @@ function populateBoardView() {
  
 }
 
-function addTask(event) {
-  event.preventDefault();
-  let task_name = document.querySelector("#task_name").value.trim();
-  let description = document.querySelector("#description").value.trim();
-  let day = document.querySelector("#day").value.trim();
-  let Month = document.querySelector("#Month").value.trim();
-  let year = document.querySelector("#year").value.trim();
-  let currentDate = new Date();
-  currentDate.setDate(day);
-  currentDate.setMonth(Month - 1);
-  currentDate.setFullYear(year);
-  const fxhr = new FXMLHttpRequest();
-  let task = new Task(task_name, type_mission, currentDate, description);
-  console.log(current_user);
-  fxhr.open("POST", "", true, null, task, null, current_user);
-  fxhr.send("add task", (flage) => {
-    console.log(flage);
-    if(flage)
-    {
-    alert("you added successfully");
-    window.location.href = "#Tasks";}
-  });
-}
-
 
 // close buttons inside overlays
 closeButtons.forEach((button) => {
@@ -137,5 +113,40 @@ taskItems.forEach((task) => {
   });
 });
 
-
-
+/*add task */
+function addTask(event) {
+  event.preventDefault();
+  let task_name = document.querySelector("#task_name").value.trim();
+  let description = document.querySelector("#description").value.trim();
+  let day = document.querySelector("#day").value.trim();
+  let Month = document.querySelector("#Month").value.trim();
+  let year = document.querySelector("#year").value.trim();
+  let currentDate = new Date();
+  let todayDay=currentDate.getDate();
+  let todayMonth = currentDate.getMonth()+1;
+  let todayYear = currentDate.getFullYear();
+  currentDate.setDate(day);
+  currentDate.setMonth(Month - 1);
+  if(!task_name||!day||!year||!Month){
+    alert("Please fill all the fields");
+    return;
+  }/*
+  if(day<todayDay||Month<todayMonth||year<todayYear){
+    alert("Please select a valid date");
+    return;
+  }*/
+  currentDate.setFullYear(year);
+  const fxhr = new FXMLHttpRequest();
+  let task = new Task(task_name, type_mission, currentDate, description);
+  console.log(current_user);
+  fxhr.open("POST", "", true, null, task, null, current_user);
+  fxhr.send("add task", (flage) => {
+    console.log(flage);
+    if(flage)
+    {
+    alert("you added successfully");
+    //להכניס לו משתמש
+    fetchAndDisplayTasks(current_user);
+    window.location.href = "#Tasks";}
+  });
+}

@@ -50,6 +50,7 @@ home = document.querySelector("#home"),
   signup.classList.add("show");
   home.classList.add("show");
   let userTasks=[];
+ 
 
 function login(event){ 
     //formContainer.classList.remove("active");
@@ -320,4 +321,30 @@ function displayTaskDetails(task, index) {
   document.getElementById('task-description').textContent = task.description;
   document.getElementById('task-due-date').textContent = task.currentDate;
   document.getElementById('task-status').textContent = task.type;
+
+
+}
+
+
+/*Delete Task */
+document.getElementById('delete-task-cta').addEventListener('click', function() {
+  var task_name =  document.getElementById('task-name').textContent;
+
+  deleteTask(task_name); // קריאה לפונקציה שמבצעת את המחיקה
+});
+
+function deleteTask( taskName,username=current_user) {
+  console.log(current_user);
+  const fxhr = new FXMLHttpRequest();
+  fxhr.open("DELETE", "", true, null, null, taskName, username);
+  fxhr.send("", () => {
+      alert("Task deleted successfully");
+  });
+  fetchAndDisplayTasks(username);
+  window.location.href="#Tasks";
+}
+
+/*close button */
+function closeWindow(){
+  window.location.href = "#Tasks";
 }
