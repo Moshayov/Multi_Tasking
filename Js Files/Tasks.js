@@ -1,7 +1,7 @@
 // elements
-const radioViewOptions = document.querySelectorAll("input[name='view-option']");
+
+const radioViewOptions = document.querySelectorAll("input[name='status-option']");
 const boardView = document.getElementById("board-view");
-const addTaskCTA = document.getElementById("add-task-cta");
 const setTaskOverlay = document.getElementById("set-task-overlay");
 const closeButtons = document.querySelectorAll(".close-button");
 const statusSelect = document.getElementById("status-select");
@@ -17,6 +17,7 @@ function get_current_user(){
   fxhr.open("GET", "",false);
    return fxhr.send("current_user");
 }
+
 // the current active overlay
 let activeOverlay = null;
 
@@ -67,37 +68,42 @@ function populateBoardView() {
  
 }
 
-function addTask(){
+function addTask(event) {
+  event.preventDefault();
   let task_name = document.querySelector("#task_name").value.trim();
-  let type;
   let description = document.querySelector("#description").value.trim();
   let day = document.querySelector("#day").value.trim();
   let Month = document.querySelector("#Month").value.trim();
   let year = document.querySelector("#year").value.trim();
   let currentDate = new Date();
   currentDate.setDate(day);
-  currentDate.setMonth(Month - 1); // החודשים בתוך האובייקט Date מתחילים מ-0 (ינואר הוא 0, פברואר הוא 1, וכן הלאה)
-  currentDate.setFullYear(year)
-  let radioButtons = document.querySelectorAll('input[type="radio"]');
+  currentDate.setMonth(Month - 1);
+  currentDate.setFullYear(year);
+  
+  let type; // Define type here
+  
+
   radioButtons.forEach(button => {
-      button.addEventListener('change', function() {
-          // בדיקה אם הרדיו כפתור נבחר
-          if (this.checked) {
-              // השמת הערך שנבחר לתוך משתנה
-            //  let selectedValue = this.value;
-              type = this.value;
-          }
-      });
+    button.addEventListener('change', function() {
+      if (this.checked) {
+        type = this.value; // Assign selected value to type
+      }
+    });
   });
-  let task = new Task(task_name,type,currentDate,description);
-  //console.log(task);
+
+  // This console.log(type) should be placed inside the event listener
+  // console.log(type);
+
+  let task = new Task(task_name, type, currentDate, description);
+  // console.log(task);
+
   const fxhr = new FXMLHttpRequest()
-  fxhr.open("POST", "",true,null,task,null,current_user);
+  console.log(current_user);
+  fxhr.open("POST", "", true, null, task, null, current_user);
   fxhr.send("add task", () => {
-      alert("you added suucsefuly");
+    alert("you added successfully");
+    window.location.href = "#Tasks";
   });
-
-
 }
 
 

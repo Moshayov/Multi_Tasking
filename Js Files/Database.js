@@ -80,7 +80,7 @@ class DataBase{
         this.saveALL(users);
     }
     /*add new task to the user list */
-    post_task(newtask,username) {
+    post_task(username,newtask) {
         const users = this.getAll();
         let user = users.find(user => user.username === username);
         if (user) {  

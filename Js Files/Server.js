@@ -16,11 +16,11 @@ class Server{
                 dispatcher(this.getAll_tasks(recivedData["d"].user_name));
             }
             else if(recivedData["body"] == "current_user"){
-                dispatcher(this.get_current_user());
+                return this.get_current_user();
             }
             else if(recivedData["body"]=="task")
             {
-                dispatcher(this.getTask(recivedData["d"].task,recivedData["d"].user.user_name));
+                dispatcher(this.getTask(recivedData["d"].task_name,recivedData["d"].user_name));
             }
             else{
                 dispatcher(this.GET(recivedData["d"].user.username));
@@ -31,7 +31,7 @@ class Server{
                 this.post(recivedData["d"].user.username, recivedData["d"].user.password);
             } 
             else {
-                this.post_task(recivedData["d"].user.username,  recivedData["d"].task);
+                this.post_task(recivedData["d"].user_name,  recivedData["d"].task);
             }
             //dispatch the event
             dispatcher();

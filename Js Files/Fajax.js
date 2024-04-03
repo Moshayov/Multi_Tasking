@@ -38,7 +38,7 @@ send(body = "", func = () => { }) {
       net.send_to_server_async(JSON.stringify({ d, body }), func);
   }
   else {
-      net.send_to_server(JSON.stringify({ d, body }));
+     return net.send_to_server(JSON.stringify({ d, body }));
   }
 }
   
