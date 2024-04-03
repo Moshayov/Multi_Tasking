@@ -430,5 +430,10 @@ body {
   }
 }
 
+.overlay-content{
+  background-color:#9370DB;
 
-  
+}
+.button {
+  background-color:  #abe5bc;
+}
