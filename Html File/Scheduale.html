@@ -85,6 +85,16 @@
               </div>
         </div> 
         <div class="page" id="Tasks">
+          <nav>
+            <div class="multitasking title">My tasks</div>     
+            <div class="user-info">
+              <button class="nav-link" data-target="Add" id="add_task">Add task</button>
+              <i class="fas fa-user"></i> <!-- Font Awesome icon for a user -->
+              <span class="user_name" id="user_name"></span>
+              
+            </div>
+          </nav>
+               
           <div class="content-container">
             <!-- success notification -->
             <div id="notification" class="notification green-background">
@@ -95,21 +105,6 @@
                 height="24"
               ></iconify-icon>
               <p>The task was deleted</p>
-            </div>
-            <!-- header -->
-            <div class="max-width-container">
-              <div class="header flex items-center justify-between">
-                <h1 class="title">My tasks</h1>
-                <div class="buttons-container">
-                  <button
-                    class="nav-link"
-                    data-target="Add"
-                    id="button regular-button blue-background"
-                  >
-                    Add task
-                  </button>
-                </div>
-              </div>
             </div>
             <!-- board view -->
             <div id="board-view" class="board-view">
@@ -180,40 +175,40 @@
       </div>
         </div> 
     <div class="page" id="Task-View">
-      <!-- Task details overlay -->
-<div id="view-task-overlay" class="overlay view-task-overlay hide">
-  <div class="overlay-content green-background">
-    <!-- Close button -->
-    <button class="button circle-button blue-background flex justify-center items-center close-button">
-      <iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
-    </button>
-    <!-- Task details placeholders -->
-    <h1 class="header no-margin">Name</h1>
-    <p class="value" id="task-name"></p>
-    <h1 class="header">Description</h1>
-    <p class="value" id="task-description"></p>
-    <div class="flex items-center">
-      <h1 class="header min-width">Due date</h1>
-      <p class="value" id="task-due-date"></p>
+    <!-- Task details overlay -->
+    <div id="view-task-overlay" class="overlay view-task-overlay hide">
+      <div class="overlay-content green-background">
+        <!-- Close button -->
+        <button class="button circle-button blue-background flex justify-center items-center close-button">
+          <iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
+        </button>
+        <!-- Task details placeholders -->
+        <h1 class="header no-margin">Name</h1>
+        <p class="value" id="task-name"></p>
+        <h1 class="header">Description</h1>
+        <p class="value" id="task-description"></p>
+        <div class="flex items-center">
+          <h1 class="header min-width">Due date</h1>
+          <p class="value" id="task-due-date"></p>
+        </div>
+        <div class="flex items-center">
+          <h1 class="header min-width">Status</h1>
+          <p class="value status-value">
+            <span class="circle" id="task-status"></span><span id="task-status-text"></span>
+          </p>
+        </div>
+        <div class="control-buttons-container">
+          <!-- Edit button -->
+          <button class="button circle-button pink-background flex justify-center items-center">
+            <iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24" height="24"></iconify-icon>
+          </button>
+          <!-- Delete button -->
+          <button id="delete-task-cta" class="button circle-button pink-background flex justify-center items-center">
+            <iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center">
-      <h1 class="header min-width">Status</h1>
-      <p class="value status-value">
-        <span class="circle" id="task-status"></span><span id="task-status-text"></span>
-      </p>
-    </div>
-    <div class="control-buttons-container">
-      <!-- Edit button -->
-      <button class="button circle-button pink-background flex justify-center items-center">
-        <iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24" height="24"></iconify-icon>
-      </button>
-      <!-- Delete button -->
-      <button id="delete-task-cta" class="button circle-button pink-background flex justify-center items-center">
-        <iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- Main content -->
 <div class="content-container">

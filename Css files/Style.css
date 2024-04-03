@@ -38,18 +38,18 @@ body::before {
 /***Login****/
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #7d2ae8;
-    padding: 10px 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 2;
-    border-top: 5px solid #000; /* Adjust the thickness and color as needed */
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #7d2ae8;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  border-top: 5px solid #000; /* Adjust the thickness and color as needed */
+}
   .user_name{
     margin-right: 50px;
   }
@@ -288,4 +288,13 @@ nav {
     font-size: 12px;
     text-align: center;
     margin-top: 15px;
+  }
+  .separator {
+    margin: 20px 0; /* Adjust the margin as needed */
+    border-top: 4px solid #ccc; /* Add a horizontal line */
+  }
+  #add_task{
+    margin-right: 40px;
+      color: white;
+
   }

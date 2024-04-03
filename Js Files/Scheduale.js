@@ -49,7 +49,7 @@ home = document.querySelector("#home"),
   loginForm = document.getElementById("#home");
   signup.classList.add("show");
   home.classList.add("show");
-
+  let userTasks=[];
 
 function login(event){ 
     //formContainer.classList.remove("active");
@@ -139,7 +139,7 @@ function login(event){
     });
   });
 
-
+/*
 // Function to display tasks in board view
 function displayTasksBoardView(tasks) {
   const boardContainer = document.getElementById('board-view');
@@ -147,13 +147,13 @@ function displayTasksBoardView(tasks) {
 
   // Loop through tasks and organize them by type (To do, Doing, Done)
   const tasksByType = {
-      "To do": [],
-      "Doing": [],
-      "Done": []
+    "To do": [],
+    "Doing": [],
+    "Done": []
   };
 
   tasks.forEach(task => {
-      tasksByType[task.type].push(task);
+    tasksByType[task.type].push(task);
   });
 
   // Loop through task types and create lists for each type
@@ -174,51 +174,140 @@ function displayTasksBoardView(tasks) {
     const tasksList = document.createElement('ul');
     tasksList.classList.add('tasks-list', `${type.toLowerCase().replace(/\s/g, '-')}`); // Replace spaces with hyphens
 
-      // Loop through tasks of current type and create task items
-      tasksByType[type].forEach(task => {
-          const taskItem = document.createElement('li');
-          taskItem.classList.add('task-item');
+    // Loop through tasks of current type and create task items
+    tasksByType[type].forEach(task => {
+      const taskItem = document.createElement('li');
+      taskItem.classList.add('task-item');
 
-          const taskButton = document.createElement('button');
-          taskButton.classList.add('task-button');
+      const taskName = document.createElement('p');
+      taskName.classList.add('task-name');
+      taskName.textContent = task.task_name;
 
-          const taskName = document.createElement('p');
-          taskName.classList.add('task-name');
-          taskName.textContent = task.task_name;
+      const taskDueDate = document.createElement('p');
+      taskDueDate.classList.add('task-due-date');
+      taskDueDate.textContent = `Due on ${task.currentDate}`;
 
-          const taskDueDate = document.createElement('p');
-          taskDueDate.classList.add('task-due-date');
-          taskDueDate.textContent = `Due on ${task.currentDate}`;
+      // Append task elements to task item
+      taskItem.appendChild(taskName);
+      taskItem.appendChild(taskDueDate);
 
-          // Append task elements to the button
-          taskButton.appendChild(taskName);
-          taskButton.appendChild(taskDueDate);
+      // Append task item to tasks list
+      tasksList.appendChild(taskItem);
+    });
 
-          // Append button to task item
-          taskItem.appendChild(taskButton);
+    // Append list header and tasks list to list container
+    listContainer.appendChild(listHeader);
+    listContainer.appendChild(tasksList);
 
-          // Append task item to tasks list
-          tasksList.appendChild(taskItem);
-      });
-
-      // Append list header and tasks list to list container
-      listContainer.appendChild(listHeader);
-      listContainer.appendChild(tasksList);
-
-      // Append list container to board container
-      boardContainer.appendChild(listContainer);
+    // Append list container to board container
+    boardContainer.appendChild(listContainer);
   });
 }
+*/
+// Function to display tasks in board view
 
+function displayTasksBoardView(tasks,username) {
+  var usernameElement = document.getElementById("user_name");
+  usernameElement.textContent = username;
+  const boardContainer = document.getElementById('board-view');
+  boardContainer.innerHTML = ''; // Clear previous content
+
+  // Loop through tasks and organize them by type (To do, Doing, Done)
+  const tasksByType = {
+    "To do": [],
+    "Doing": [],
+    "Done": []
+  };
+
+  tasks.forEach(task => {
+    tasksByType[task.type].push(task);
+  });
+
+  // Loop through task types and create lists for each type
+  Object.keys(tasksByType).forEach(type => {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('list');
+
+    const listHeader = document.createElement('h2');
+    listHeader.classList.add('list-header');
+
+    // Add colored circle next to task type
+    const circle = document.createElement('span');
+    circle.classList.add('circle', `${type.toLowerCase().replace(/\s/g, '-')}-background`);
+    listHeader.appendChild(circle);
+
+    const text = document.createElement('span');
+    text.classList.add('text');
+    text.textContent = type;
+    listHeader.appendChild(text);
+
+    // Create tasks list
+    const tasksList = document.createElement('ul');
+    tasksList.classList.add('tasks-list', `${type.toLowerCase().replace(/\s/g, '-')}`);
+
+    // Loop through tasks of current type and create task items
+    tasksByType[type].forEach(task => {
+      const taskItem = document.createElement('li');
+      taskItem.classList.add('task-item');
+
+      const taskButton = document.createElement('button');
+      taskButton.classList.add('task-button');
+
+      const taskDetails = document.createElement('div');
+      taskDetails.classList.add('task-details');
+
+      // Add triangle icon to task button
+      const triangleIcon = document.createElement('iconify-icon');
+      triangleIcon.setAttribute('icon', 'mdi:triangle');
+      triangleIcon.setAttribute('style', 'color: black');
+      triangleIcon.setAttribute('width', '18');
+      triangleIcon.setAttribute('height', '18');
+      triangleIcon.classList.add('triangle-icon');
+      taskButton.appendChild(triangleIcon);
+
+      // Task name and due date
+      const taskName = document.createElement('p');
+      taskName.classList.add('task-name');
+      taskName.textContent = task.task_name;
+
+      const taskDueDate = document.createElement('p');
+      taskDueDate.classList.add('task-due-date');
+      taskDueDate.textContent = `Due on ${task.currentDate}`;
+
+      // Append task details to task button
+      taskDetails.appendChild(taskName);
+      taskDetails.appendChild(taskDueDate);
+      taskButton.appendChild(taskDetails);
+
+      // Add click event to task button to display task details
+      taskButton.addEventListener('click', () => {
+        displayTaskDetails(task);
+      });
+
+      // Append task button to task item
+      taskItem.appendChild(taskButton);
+
+      // Append task item to tasks list
+      tasksList.appendChild(taskItem);
+    });
+
+    // Append list header and tasks list to list container
+    listContainer.appendChild(listHeader);
+    listContainer.appendChild(tasksList);
+
+    // Append list container to board container
+    boardContainer.appendChild(listContainer);
+  });
+}
 // Function to fetch tasks and display them
 function fetchAndDisplayTasks(user_name) {
     const fxhr = new FXMLHttpRequest()
     fxhr.open("GET", " ",false,null,null," ",user_name);
-    let userTasks = fxhr.send("tasks")
+    userTasks = fxhr.send("tasks")
     console.log(userTasks);
   // Display tasks in board view
   if(userTasks){
   console.log(userTasks);
-  displayTasksBoardView(userTasks);
+  displayTasksBoardView(userTasks,user_name);
 }
 }
