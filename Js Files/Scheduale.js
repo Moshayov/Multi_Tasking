@@ -47,7 +47,6 @@ home = document.querySelector("#home"),
   signup_Button = document.querySelector("#signup_Now"),
   signup = document.querySelector('#Sign_Up'),
   loginForm = document.getElementById("#home");
- 
   signup.classList.add("show");
   home.classList.add("show");
 
@@ -55,7 +54,7 @@ home = document.querySelector("#home"),
 function login(event){ 
     //formContainer.classList.remove("active");
     event.preventDefault();
-    let usernameValue =  document.querySelector("#username").value.trim();
+    usernameValue =  document.querySelector("#username").value.trim();
     let passwordValue = document.querySelector("#password_login").value.trim();
     Task_click = document.querySelector("#task_nav");
     
@@ -71,60 +70,62 @@ function login(event){
               alert("welcome");
               flage=true;
               localStorage.setItem("username", JSON.stringify(user.username));
-              console.log("hiiii");
+              console.log("hiiii");              
+              // Initial display of tasks
+              fetchAndDisplayTasks(usernameValue);
               window.location.href = "#Tasks";
             }
           } )
 
         if (!flage) {
-          alert("wrong");
+          alert("user name  or password is not correct");
       }
      
     });
     console.log(flage);
   }
 
-function sign_up(){
-    let flage= false;
-    let usernameValue =  document.querySelector("#username_sign_Up").value.trim();
+  function sign_up(event) {
+    event.preventDefault();
+    let flage = false;
+    let usernameValue = document.querySelector("#username_sign_Up").value.trim();
     let passwordValue = document.querySelector("#password_signUp").value.trim();
     let passwordConfirmValue = document.querySelector("#Confirm_password").value.trim();
-    console.log(usernameValue);
-    console.log(passwordConfirmValue);
-    console.log(passwordValue);
-    if (!usernameValue || !passwordValue|| !passwordConfirmValue) {
-        alert("Please enter username  password and password Confirm.");
-         flage=false;
+
+    if (!usernameValue || !passwordValue || !passwordConfirmValue) {
+        alert("Please enter username, password, and password confirmation.");
+        flage = true;
     }
-    if (passwordConfirmValue != passwordValue) {
-          console.log(passwordConfirmValue);
-          console.log(passwordValue);
-          alert("The passwords you entered do not match, please re-enter");
-          flage=false;
-          return;
+
+    if (passwordConfirmValue !== passwordValue && !flage) {
+        alert("The passwords you entered do not match, please re-enter");
+        flage = true;
     }
-    const fxhr = new FXMLHttpRequest()
-    fxhr.open("GET", "");
-    fxhr.send("usernames", (user) => {
-    console.log(user);
-    if (user.username == usernameValue) {
-        alert("the user already exist in the system");
-            localStorage.setItem("username", JSON.stringify(username));
-            console.log("iiii");
-    } else 
-    {
-                flage=true;
+
+    if (!flage) {
+        const fxhr = new FXMLHttpRequest();
+        fxhr.open("GET", "");
+        fxhr.send("usernames", (users) => {
+            let userExists = false;
+            users.forEach((user)=> {
+                if (user.username == usernameValue) {
+                    alert("The user already exists in the system, please pick another name");
+                    userExists = true;
+                }
+            });
+
+            if (!userExists) {
+                let user = new User(usernameValue, passwordValue);
+                fxhr.open("POST", "", true, user, null, null);
+                fxhr.send("add user", () => {
+                    alert("User added successfully");
+                    window.location.href = "#home";
+                });
+            }
+        });
     }
-    });
-  if(flage){
-    let user = new User(usernameValue,passwordValue);
-    fxhr.open("POST", "",true,user,null,null);
-    fxhr.send("add user", () => {
-        alert("you added suucsefuly");
-    });
-  }
 }
-  
+
   pwShowHide.forEach((icon) => {
     icon.addEventListener("click", () => {
       let getPwInput = icon.parentElement.querySelector("input");
@@ -139,3 +140,85 @@ function sign_up(){
   });
 
 
+// Function to display tasks in board view
+function displayTasksBoardView(tasks) {
+  const boardContainer = document.getElementById('board-view');
+  boardContainer.innerHTML = ''; // Clear previous content
+
+  // Loop through tasks and organize them by type (To do, Doing, Done)
+  const tasksByType = {
+      "To do": [],
+      "Doing": [],
+      "Done": []
+  };
+
+  tasks.forEach(task => {
+      tasksByType[task.type].push(task);
+  });
+
+  // Loop through task types and create lists for each type
+  Object.keys(tasksByType).forEach(type => {
+    const listContainer = document.createElement('div');
+    listContainer.classList.add('list');
+
+    const listHeader = document.createElement('h2');
+    listHeader.classList.add('list-header');
+    const circle = document.createElement('span');
+    circle.classList.add('circle', `${type.toLowerCase().replace(/\s/g, '-')}-background`); // Replace spaces with hyphens
+    const text = document.createElement('span');
+    text.classList.add('text');
+    text.textContent = type;
+    listHeader.appendChild(circle);
+    listHeader.appendChild(text);
+
+    const tasksList = document.createElement('ul');
+    tasksList.classList.add('tasks-list', `${type.toLowerCase().replace(/\s/g, '-')}`); // Replace spaces with hyphens
+
+      // Loop through tasks of current type and create task items
+      tasksByType[type].forEach(task => {
+          const taskItem = document.createElement('li');
+          taskItem.classList.add('task-item');
+
+          const taskButton = document.createElement('button');
+          taskButton.classList.add('task-button');
+
+          const taskName = document.createElement('p');
+          taskName.classList.add('task-name');
+          taskName.textContent = task.task_name;
+
+          const taskDueDate = document.createElement('p');
+          taskDueDate.classList.add('task-due-date');
+          taskDueDate.textContent = `Due on ${task.currentDate}`;
+
+          // Append task elements to the button
+          taskButton.appendChild(taskName);
+          taskButton.appendChild(taskDueDate);
+
+          // Append button to task item
+          taskItem.appendChild(taskButton);
+
+          // Append task item to tasks list
+          tasksList.appendChild(taskItem);
+      });
+
+      // Append list header and tasks list to list container
+      listContainer.appendChild(listHeader);
+      listContainer.appendChild(tasksList);
+
+      // Append list container to board container
+      boardContainer.appendChild(listContainer);
+  });
+}
+
+// Function to fetch tasks and display them
+function fetchAndDisplayTasks(user_name) {
+    const fxhr = new FXMLHttpRequest()
+    fxhr.open("GET", " ",false,null,null," ",user_name);
+    let userTasks = fxhr.send("tasks")
+    console.log(userTasks);
+  // Display tasks in board view
+  if(userTasks){
+  console.log(userTasks);
+  displayTasksBoardView(userTasks);
+}
+}

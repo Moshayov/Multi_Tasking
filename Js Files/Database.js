@@ -8,7 +8,7 @@ class User {
 
 
 class Task{
-    constructor(task_name,type ,currentDate=new Date(), description) {
+    constructor(task_name,type="TO DO" ,currentDate=new Date(), description) {
         let Date_ = currentDate.toUTCString();
         this.task_name=task_name;
         this.type=type;
@@ -40,9 +40,13 @@ class DataBase{
         return user.tasks.find(task=>task.task_name==task_name)
     }
     /*get all task of the  user */
-    getAll_tasks(user_name) {
-        const user = this.GET(user_name);
-        return user.tasks;
+    getAll_tasks(username) {
+        const users = this.getAll();
+        const user = users.find(user => user.username === username);
+        console.log("hi im in get all task");
+        console.log(username);
+        console.log(user);
+        return user ? user.tasks : [];
     }
     get_current_user(){
         const usersJSON = localStorage.getItem('username');
@@ -79,21 +83,28 @@ class DataBase{
         users.push(newUser);
         this.saveALL(users);
     }
+
+    
     /*add new task to the user list */
-    post_task(username,newtask) {
+    post_task(username, newtask) {
         const users = this.getAll();
         let user = users.find(user => user.username === username);
-        if (user) {  
-            user.tasks.push(newtask);
-            this.saveALL(users);
-            console.log("Task updated successfully");
+        console.log(newtask);
+        if (user) {
+            if (user.tasks.some(task => task?.task_name === newtask.task_name)) {
+                alert("The task is already exist in the system,\n please pick another name");
+                return false;
+            } else {
+                user.tasks.push(newtask);
+                this.saveALL(users);
+                console.log("Task added successfully");
+                return true;
+            }
         } 
-        else {
-            console.log("User not found");
-
-        }
-        
+        console.log("User not found");
+        return false;
     }
+    
 
     /****DELETE****/
     /*delte a task from the list of tasks of specific user*/ 
