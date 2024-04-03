@@ -41,7 +41,7 @@ class Server{
             dispatcher();
         }
         else if(recivedData["d"].method == 'DELETE'){
-            this.Deletee(recivedData["d"].username, recivedData["d"].task_name);
+            this.Deletee(recivedData["d"].user_name, recivedData["d"].task_name);
             //dispatch the event
             dispatcher();
         }
@@ -60,7 +60,9 @@ class Server{
 
     //read
     get_current_user(){
-        return this.db.get_current_user();
+        let user =  this.db.get_current_user();
+        console.log(user)
+        return user;
     }
 
     getAll() {

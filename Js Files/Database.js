@@ -111,6 +111,7 @@ class DataBase{
     Deletee(username,task_name) {       
         let users = this.getAll();
         let user = users.find(user => user.username === username);
+        console.log(username);
         if (user) {
             let taskIndex = user.tasks.findIndex(task => task.task_name === task_name);
             if (taskIndex !== -1) {

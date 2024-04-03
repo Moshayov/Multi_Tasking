@@ -33,12 +33,14 @@ send(body = "", func = () => { }) {
   //TODO: send the request via network class
   let net = new Network();
   this.readyState=3;
-  const d = this.data
+  const d = this.data;
   if (this.data["isAsinc"]) {
       net.send_to_server_async(JSON.stringify({ d, body }), func);
   }
   else {
-     return net.send_to_server(JSON.stringify({ d, body }));
+     let user = net.send_to_server(JSON.stringify({ d, body }));
+     console.log(user);
+     return user;
   }
 }
   
