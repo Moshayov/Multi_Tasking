@@ -1,5 +1,4 @@
 // elements
-
 const radioButtons = document.querySelectorAll("input[name='status-option']");
 const boardView = document.getElementById("board-view");
 const setTaskOverlay = document.getElementById("set-task-overlay");
@@ -11,7 +10,7 @@ const viewTaskOverlay = document.getElementById("view-task-overlay");
 const deleteTaskCTA = document.getElementById("delete-task-cta");
 const notification = document.getElementById("notification");
 const current_user =get_current_user();
-
+let type_mission = "To do";
 function get_current_user(){
   const fxhr = new FXMLHttpRequest()
   fxhr.open("GET", "",false);
@@ -20,6 +19,26 @@ function get_current_user(){
 
 // the current active overlay
 let activeOverlay = null;
+
+//get task type
+radioButtons.forEach((radioButton) => {
+  radioButton.addEventListener("change", (event) => {
+    const eventTarget = event.target;
+    const type_ = eventTarget.value;
+
+    switch (type_) {
+      case "To do":
+        type_mission = "To do";
+        break;
+      case "Doing":
+        type_mission = "Doing";
+        break;
+      case "Done":
+          type_mission = "Done";
+          break;
+    }
+  });
+});
 
 function view_task(){
   const fxhr = new FXMLHttpRequest()
@@ -40,7 +59,7 @@ function view_task(){
     
         const taskDueDate = document.createElement("p");
         taskDueDate.classList.add("task-due-date");
-        taskDueDate.textContent = task.dueDate;
+        taskDueDate.textContent = task.currentDate;
     
         taskInfo.appendChild(taskName);
         taskInfo.appendChild(taskDueDate);
@@ -79,49 +98,18 @@ function addTask(event) {
   currentDate.setDate(day);
   currentDate.setMonth(Month - 1);
   currentDate.setFullYear(year);
-  let flage=false;
-  
-  let type; // Define type here
-  
-
-  radioButtons.forEach(button => {
-    button.addEventListener('change', function() {
-      if (this.checked) {
-        type = this.value; // Assign selected value to type
-      }
-    });
-  });
-
-  // This console.log(type) should be placed inside the event listener
-  // console.log(type);
   const fxhr = new FXMLHttpRequest();
-  fxhr.open("GET", "");
-  fxhr.send("tasks", (task) => {
-  if (task.task_name == task_name) {
-      alert("The task is already exist in the system,\n pleas pick another name");
-          console.log("iiii");
-  } else 
-  {
-              flage=true;
-  }
-  });
-if(flage){
-  const fxhr = new FXMLHttpRequest();
-  let task = new Task(task_name, type, currentDate, description);
+  let task = new Task(task_name, type_mission, currentDate, description);
   console.log(current_user);
   fxhr.open("POST", "", true, null, task, null, current_user);
-  fxhr.send("add task", () => {
+  fxhr.send("add task", (flage) => {
+    console.log(flage);
+    if(flage)
+    {
     alert("you added successfully");
-    window.location.href = "#Tasks";
+    window.location.href = "#Tasks";}
   });
 }
-  
-  // console.log(task);
-
-  //const fxhr = new FXMLHttpRequest()
-  
-}
-
 
 
 // close buttons inside overlays
@@ -148,5 +136,6 @@ taskItems.forEach((task) => {
     document.body.classList.add("overflow-hidden");
   });
 });
+
 
 

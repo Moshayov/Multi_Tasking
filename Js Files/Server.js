@@ -13,7 +13,7 @@ class Server{
                 dispatcher(this.getAll());
             } 
             else if(recivedData["body"] == "tasks"){
-                dispatcher(this.getAll_tasks(recivedData["d"].user_name));
+                return this.getAll_tasks(recivedData["d"].user_name);
             }
             else if(recivedData["body"] == "current_user"){
                 return this.get_current_user();
@@ -28,13 +28,12 @@ class Server{
         } 
         else if(recivedData["d"].method === 'POST' ){
             if (recivedData["body"]=="add user") {
-                this.post(recivedData["d"].user.username, recivedData["d"].user.password);
+                dispatcher( this.post(recivedData["d"].user.username, recivedData["d"].user.password));
             } 
             else {
-                this.post_task(recivedData["d"].user_name,  recivedData["d"].task);
+                dispatcher(this.post_task(recivedData["d"].user_name,  recivedData["d"].task));
             }
-            //dispatch the event
-            dispatcher();
+          
         } 
         else if(recivedData["d"].method === 'PUT'){
             this.Update(recivedData["d"].user.username, recivedData["d"].task_name,recivedData["d"].task);
@@ -42,7 +41,7 @@ class Server{
             dispatcher();
         }
         else if(recivedData["d"].method == 'DELETE'){
-            this.Deletee(recivedData["d"].user.username, recivedData["d"].task_name);
+            this.Deletee(recivedData["d"].username, recivedData["d"].task_name);
             //dispatch the event
             dispatcher();
         }
@@ -56,7 +55,7 @@ class Server{
     }
 
     post_task(username, new_task){
-        this.db.post_task(username, new_task);
+       return this.db.post_task(username, new_task);
      }
 
     //read
