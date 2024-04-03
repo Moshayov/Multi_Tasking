@@ -107,7 +107,7 @@ function sign_up(){
     fxhr.open("GET", "");
     fxhr.send("usernames", (user) => {
     console.log(user);
-    if (user.username == usernameValue && user.password==passwordValue) {
+    if (user.username == usernameValue) {
         alert("the user already exist in the system");
             localStorage.setItem("username", JSON.stringify(username));
             console.log("iiii");

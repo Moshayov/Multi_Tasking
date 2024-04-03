@@ -1,6 +1,6 @@
 // elements
 
-const radioViewOptions = document.querySelectorAll("input[name='status-option']");
+const radioButtons = document.querySelectorAll("input[name='status-option']");
 const boardView = document.getElementById("board-view");
 const setTaskOverlay = document.getElementById("set-task-overlay");
 const closeButtons = document.querySelectorAll(".close-button");
@@ -79,6 +79,7 @@ function addTask(event) {
   currentDate.setDate(day);
   currentDate.setMonth(Month - 1);
   currentDate.setFullYear(year);
+  let flage=false;
   
   let type; // Define type here
   
@@ -93,17 +94,32 @@ function addTask(event) {
 
   // This console.log(type) should be placed inside the event listener
   // console.log(type);
-
+  const fxhr = new FXMLHttpRequest();
+  fxhr.open("GET", "");
+  fxhr.send("tasks", (task) => {
+  if (task.task_name == task_name) {
+      alert("The task is already exist in the system,\n pleas pick another name");
+          console.log("iiii");
+  } else 
+  {
+              flage=true;
+  }
+  });
+if(flage){
+  const fxhr = new FXMLHttpRequest();
   let task = new Task(task_name, type, currentDate, description);
-  // console.log(task);
-
-  const fxhr = new FXMLHttpRequest()
   console.log(current_user);
   fxhr.open("POST", "", true, null, task, null, current_user);
   fxhr.send("add task", () => {
     alert("you added successfully");
     window.location.href = "#Tasks";
   });
+}
+  
+  // console.log(task);
+
+  //const fxhr = new FXMLHttpRequest()
+  
 }
 
 
