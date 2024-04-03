@@ -113,7 +113,7 @@ nav {
   .form_container h2 {
     font-size: 22px;
     color: #0b0217;
-    text-align: center;
+    text-align: left;/*check*/
   }
   .input_box {
     position: relative;
@@ -298,3 +298,8 @@ nav {
       color: white;
 
   }
+  .task-name{
+    text-align: left;
+    font-size: 30px;
+  }
+  
