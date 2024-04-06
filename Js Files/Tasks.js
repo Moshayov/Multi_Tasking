@@ -135,6 +135,21 @@ function addTask(event) {
     alert("Please select a valid date");
     return;
   }*/
+  if(year<todayYear)
+  {
+    alert("Please select a valid date");
+    return;
+  }
+  else if(Month<todayMonth)
+  {
+    alert("Please select a valid date");
+    return;
+  }
+  else if(day<todayDay)
+  {
+    alert("Please select a valid date");
+    return;
+  }
   currentDate.setFullYear(year);
   const fxhr = new FXMLHttpRequest();
   let task = new Task(task_name, type_mission, currentDate, description);
