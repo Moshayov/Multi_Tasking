@@ -182,43 +182,104 @@
           </div>
       </div>
         </div> 
-    <div class="page" id="Task-View">
-    <!-- Task details overlay -->
-    <div id="view-task-overlay" class="overlay view-task-overlay hide">
-      <div class="overlay-content green-background">
-        <!-- close button -->
-        <button class="button circle-button blue-background flex justify-center items-center close-button" onclick="closeWindow()" id="close-button">X
-        </button>
-        <!-- Task details placeholders -->
-        <h1 class="header no-margin">Name</h1>
-        <p class="value" id="task-name"></p>
-        <h1 class="header">Description</h1>
-        <p class="value" id="task-description"></p>
-        <div class="flex items-center">
-          <h1 class="header min-width">Due date</h1>
-          <p class="value" id="task-due-date"></p>
+        <div class="page" id="Task-View">
+        <!-- Task details overlay -->
+        <div id="view-task-overlay" class="overlay view-task-overlay hide">
+          <div class="overlay-content green-background">
+            <!-- close button -->
+            <button class="button circle-button blue-background flex justify-center items-center close-button" onclick="closeWindow()" id="close-button">X
+            </button>
+            <!-- Task details placeholders -->
+            <h1 class="header no-margin">Name</h1>
+            <p class="value" id="task-name"></p>
+            <h1 class="header">Description</h1>
+            <p class="value" id="task-description"></p>
+            <div class="flex items-center">
+              <h1 class="header min-width">Due date</h1>
+              <p class="value" id="task-due-date"></p>
+            </div>
+            <div class="flex items-center">
+              <h1 class="header min-width">Status</h1>
+              <p class="value status-value">
+                <span class="circle" id="task-status"></span><span id="task-status-text"></span>
+              </p>
+            </div>
+            <div class="control-buttons-container">
+              <!-- Edit button -->
+              <button id="edit-task-cta"  class="button circle-button pink-background flex justify-center items-center">
+                <i class="fas fa-edit"></i>
+                <iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24" height="24"></iconify-icon>
+              </button>
+              <!-- Delete button -->
+              <button id="delete-task-cta" onclick="" class="button circle-button pink-background flex justify-center items-center">
+                <i class="fas fa-trash"></i>
+                <iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center">
-          <h1 class="header min-width">Status</h1>
-          <p class="value status-value">
-            <span class="circle" id="task-status"></span><span id="task-status-text"></span>
-          </p>
         </div>
-        <div class="control-buttons-container">
-          <!-- Edit button -->
-          <button class="button circle-button pink-background flex justify-center items-center">
-            <i class="fas fa-edit"></i>
-            <iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24" height="24"></iconify-icon>
-          </button>
-          <!-- Delete button -->
-          <button id="delete-task-cta" onclick="" class="button circle-button pink-background flex justify-center items-center">
-            <i class="fas fa-trash"></i>
-            <iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
-          </button>
-        </div>
+        <div class="page" id="Edit">
+          <!-- Edit task -->
+          <div id="edit-task-overlay" class="overlay edit-task-overlay hide">
+              <div class="overlay-content pink-background">
+                  <!-- Close button -->
+                  <button class="button circle-button blue-background flex justify-center items-center close-button" onclick="closeEditWindow()" id="close-button">X
+                  </button>
+                  <h1 class="header">Edit task</h1>
+                  <form class="form" autocomplete="off">
+                      <label for="name" class="label">Name</label>
+                      <input type="text" name="name" id="task_name_edit" class="input white-background" required />
+                      <label for="description" class="label">Description</label>
+                      <textarea name="description" id="description_edit" rows="8" class="textarea-input white-background" required></textarea>
+                      <h2 class="label">Due date</h2>
+                      <div class="divided-inputs-container">
+                          <div>
+                              <label for="due-date-day" class="secondary-label">Day</label>
+                              <input type="text" name="due-date-day" id="day_edit" class="input white-background" required />
+                          </div>
+                          <div>
+                              <label for="due-date-month" class="secondary-label">Month</label>
+                              <input type="text" name="due-date-month" id="Month_edit" class="input white-background" required />
+                          </div>
+                          <div>
+                              <label for="due-date-year" class="secondary-label">Year</label>
+                              <input type="text" name="due-date-year" id="year_edit" class="input white-background" required />
+                          </div>
+                      </div>
+                      <h2 class="label">Status</h2>
+                      <div id="status-select-edit" class="status-select white-background flex items-center justify-between cursor-pointer">
+                          <span>To do</span>
+                          <iconify-icon icon="material-symbols:arrow-back-ios-rounded" style="color: black" width="18" height="18" class="arrow-icon"></iconify-icon>
+                      </div>
+                      <ul id="status-dropdown-edit" class="status-dropdown white-background hide">
+                          <li>
+                              <input type="radio" id="to-do-radio-edit" name="status-option-edit" value="To do" class="radio-input" />
+                              <label for="to-do-radio-edit" class="radio-label">
+                                  <span class="circle pink-background"></span><span>To do</span>
+                              </label>
+                          </li>
+                          <li>
+                              <input type="radio" id="doing-radio-edit" name="status-option-edit" value="Doing" class="radio-input" />
+                              <label for="doing-radio-edit" class="radio-label">
+                                  <span class="circle blue-background"></span><span>Doing</span>
+                              </label>
+                          </li>
+                          <li>
+                              <input type="radio" id="done-radio-edit" name="status-option-edit" value="Done" class="radio-input" />
+                              <label for="done-radio-edit" class="radio-label">
+                                  <span class="circle green-background"></span><span>Done</span>
+                              </label>
+                          </li>
+                      </ul>
+                      <div class="text-center">
+                          <button type="submit" class="button regular-button green-background cta-button" onclick="edit_task(event)" id="update_task">Update task</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
       </div>
-    </div>
-    </div>
+      
     </main>
     <script src="../Js Files/Scheduale.js"></script>
     <script src="../Js Files/Database.js"></script>

@@ -20,7 +20,7 @@ class Server{
             }
             else if(recivedData["body"]=="task")
             {
-                dispatcher(this.getTask(recivedData["d"].task_name,recivedData["d"].user_name));
+                return this.getTask(recivedData["d"].task_name,recivedData["d"].user_name);
             }
             else{
                 dispatcher(this.GET(recivedData["d"].user.username));
@@ -36,7 +36,7 @@ class Server{
           
         } 
         else if(recivedData["d"].method === 'PUT'){
-            this.Update(recivedData["d"].user.username, recivedData["d"].task_name,recivedData["d"].task);
+            this.Update(recivedData["d"].user_name, recivedData["d"].task_name,recivedData["d"].task);
             //dispatch the event
             dispatcher();
         }

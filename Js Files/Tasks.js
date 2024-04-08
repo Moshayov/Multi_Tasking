@@ -4,12 +4,13 @@ const boardView = document.getElementById("board-view");
 const setTaskOverlay = document.getElementById("set-task-overlay");
 const closeButtons = document.querySelectorAll(".close-button");
 const statusSelect = document.getElementById("status-select");
+const statusSelectEdit =  document.getElementById("status-select-edit");
 const statusDropdown = document.getElementById("status-dropdown");
 const taskItems = document.querySelectorAll(".task-item");
 const viewTaskOverlay = document.getElementById("view-task-overlay");
 const deleteTaskCTA = document.getElementById("delete-task-cta");
 const notification = document.getElementById("notification");
-const current_user =get_current_user();
+//const current_user ="";
 let type_mission = "To do";
 function get_current_user(){
   const fxhr = new FXMLHttpRequest()
@@ -42,7 +43,7 @@ radioButtons.forEach((radioButton) => {
 
 function view_task(){
   const fxhr = new FXMLHttpRequest()
-    fxhr.open("GET", "",true,null," ",current_user);
+    fxhr.open("GET", "",true,null," ",get_current_user());
     fxhr.send("tasks", (tasks) => {
       tasks.forEach(task => {
         const taskItem = document.createElement("div");
@@ -102,6 +103,10 @@ closeButtons.forEach((button) => {
 statusSelect.addEventListener("click", () => {
   statusDropdown.classList.toggle("hide");
 });
+// open status dropdown
+statusSelectEdit.addEventListener("click", () => {
+  statusDropdown.classList.toggle("hide");
+});
 
 // click a task
 taskItems.forEach((task) => {
@@ -121,38 +126,25 @@ function addTask(event) {
   let day = document.querySelector("#day").value.trim();
   let Month = document.querySelector("#Month").value.trim();
   let year = document.querySelector("#year").value.trim();
-  let currentDate = new Date();
-  let todayDay=currentDate.getDate();
-  let todayMonth = currentDate.getMonth()+1;
-  let todayYear = currentDate.getFullYear();
-  currentDate.setDate(day);
-  currentDate.setMonth(Month - 1);
+  let Task_dedline = new Date();
+  var currentDate = new Date();
+  Task_dedline.setDate(day);
+  Task_dedline.setMonth(Month - 1);
   if(!task_name||!day||!year||!Month){
     alert("Please fill all the fields");
     return;
-  }/*
-  if(day<todayDay||Month<todayMonth||year<todayYear){
-    alert("Please select a valid date");
-    return;
-  }*/
-  if(year<todayYear)
-  {
-    alert("Please select a valid date");
-    return;
   }
-  else if(Month<todayMonth)
-  {
-    alert("Please select a valid date");
-    return;
+  // Check if the other date is valid and not in the past
+  if ( Task_dedline < currentDate) {
+    console.log("Invalid date or date in the past");
+  } else {
+    console.log("Valid date and not in the past");
   }
-  else if(day<todayDay)
-  {
-    alert("Please select a valid date");
-    return;
-  }
-  currentDate.setFullYear(year);
+
+  Task_dedline.setFullYear(year);
   const fxhr = new FXMLHttpRequest();
-  let task = new Task(task_name, type_mission, currentDate, description);
+  let task = new Task(task_name, type_mission, Task_dedline, description);
+  current_user =get_current_user()
   console.log(current_user);
   fxhr.open("POST", "", true, null, task, null, current_user);
   fxhr.send("add task", (flage) => {

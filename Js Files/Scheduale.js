@@ -348,3 +348,57 @@ function deleteTask( taskName,username=current_user) {
 function closeWindow(){
   window.location.href = "#Tasks";
 }
+
+/*Edit Task*/
+document.getElementById('edit-task-cta').addEventListener('click', function() {
+  var task_name =  document.getElementById('task-name').textContent;
+  const fxhr = new FXMLHttpRequest()
+  fxhr.open("GET", "", false, null, null, task_name, get_current_user());
+  task = fxhr.send("task");
+  fillEditFormWithTask(task);
+  window.location.href="#Edit" ;
+});
+
+function edit_task(event,username=get_current_user()) {
+  event.preventDefault();
+  var task_name =  document.getElementById('task-name').textContent;
+  task_name = document.getElementById('task_name_edit').value;
+  description = document.getElementById('description_edit').value;
+  day = document.getElementById('day_edit').value ;
+  Month = document.getElementById('Month_edit').value ;
+  year = document.getElementById('year_edit').value ;
+  Task_dedline = new Date();
+  Task_dedline.setDate(day);
+  Task_dedline.setMonth(Month - 1);
+  Task_dedline.setFullYear(year);
+  task = new Task(task_name,type_mission,Task_dedline,description);
+
+  console.log(username);
+  const fxhr = new FXMLHttpRequest();
+  
+  fxhr.open("PUT", "", true, null, task, task_name, username);
+  fxhr.send("", () => {
+      alert("Task updated successfully");
+  });
+  fetchAndDisplayTasks(username);
+  window.location.href="#Tasks";
+}
+
+// Function to fill the edit form with task details
+function fillEditFormWithTask(task) {
+  // Parse the date string into a Date object
+  var storedDate = new Date(task.currentDate);
+
+  // Get the day, month, year, and time from the stored date
+  var storedDay = storedDate.getDate();
+  var storedMonth = storedDate.getMonth() + 1; // Adding 1 because months are zero-based
+  var storedYear = storedDate.getFullYear();
+
+  document.getElementById('task_name_edit').value = task.task_name;
+  document.getElementById('description_edit').value = task.description;
+  document.getElementById('day_edit').value = storedDay
+  document.getElementById('Month_edit').value = storedMonth;
+  document.getElementById('year_edit').value = storedYear;
+
+  
+}
