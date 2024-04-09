@@ -140,72 +140,6 @@ function login(event){
     });
   });
 
-/*
-// Function to display tasks in board view
-function displayTasksBoardView(tasks) {
-  const boardContainer = document.getElementById('board-view');
-  boardContainer.innerHTML = ''; // Clear previous content
-
-  // Loop through tasks and organize them by type (To do, Doing, Done)
-  const tasksByType = {
-    "To do": [],
-    "Doing": [],
-    "Done": []
-  };
-
-  tasks.forEach(task => {
-    tasksByType[task.type].push(task);
-  });
-
-  // Loop through task types and create lists for each type
-  Object.keys(tasksByType).forEach(type => {
-    const listContainer = document.createElement('div');
-    listContainer.classList.add('list');
-
-    const listHeader = document.createElement('h2');
-    listHeader.classList.add('list-header');
-    const circle = document.createElement('span');
-    circle.classList.add('circle', `${type.toLowerCase().replace(/\s/g, '-')}-background`); // Replace spaces with hyphens
-    const text = document.createElement('span');
-    text.classList.add('text');
-    text.textContent = type;
-    listHeader.appendChild(circle);
-    listHeader.appendChild(text);
-
-    const tasksList = document.createElement('ul');
-    tasksList.classList.add('tasks-list', `${type.toLowerCase().replace(/\s/g, '-')}`); // Replace spaces with hyphens
-
-    // Loop through tasks of current type and create task items
-    tasksByType[type].forEach(task => {
-      const taskItem = document.createElement('li');
-      taskItem.classList.add('task-item');
-
-      const taskName = document.createElement('p');
-      taskName.classList.add('task-name');
-      taskName.textContent = task.task_name;
-
-      const taskDueDate = document.createElement('p');
-      taskDueDate.classList.add('task-due-date');
-      taskDueDate.textContent = `Due on ${task.currentDate}`;
-
-      // Append task elements to task item
-      taskItem.appendChild(taskName);
-      taskItem.appendChild(taskDueDate);
-
-      // Append task item to tasks list
-      tasksList.appendChild(taskItem);
-    });
-
-    // Append list header and tasks list to list container
-    listContainer.appendChild(listHeader);
-    listContainer.appendChild(tasksList);
-
-    // Append list container to board container
-    boardContainer.appendChild(listContainer);
-  });
-}
-*/
-// Function to display tasks in board view
 
 function displayTasksBoardView(tasks, username) {
   var usernameElement = document.getElementById("user_name");
@@ -361,7 +295,7 @@ document.getElementById('edit-task-cta').addEventListener('click', function() {
 
 function edit_task(event,username=get_current_user()) {
   event.preventDefault();
-  var task_name =  document.getElementById('task-name').textContent;
+  var taskName =  document.getElementById('task-name').textContent;
   task_name = document.getElementById('task_name_edit').value;
   description = document.getElementById('description_edit').value;
   day = document.getElementById('day_edit').value ;
@@ -371,12 +305,13 @@ function edit_task(event,username=get_current_user()) {
   Task_dedline.setDate(day);
   Task_dedline.setMonth(Month - 1);
   Task_dedline.setFullYear(year);
+  console.log(type_mission);
   task = new Task(task_name,type_mission,Task_dedline,description);
 
   console.log(username);
   const fxhr = new FXMLHttpRequest();
   
-  fxhr.open("PUT", "", true, null, task, task_name, username);
+  fxhr.open("PUT", "", true, null, task, taskName, username);
   fxhr.send("", () => {
       alert("Task updated successfully");
   });

@@ -62,6 +62,8 @@ class DataBase{
         if (user) {
             let taskIndex = user.tasks.findIndex(task => task.task_name === task_name);
             if (taskIndex !== -1) {
+                console.log(task_name);
+                console.log(task.task_name);
                 user.tasks.splice(taskIndex, 1, task);
                 this.saveALL(users);
                 console.log("Task updated successfully");
