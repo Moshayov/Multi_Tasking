@@ -11,13 +11,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Css files/Style.css">
     <link rel="stylesheet" href="../Css files/dashbord.css">
-    <!-- google font: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+     <!-- google font: Inter -->
+     <link rel="preconnect" href="https://fonts.googleapis.com" />
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+     <link
+       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+       rel="stylesheet"
+     />
     <title>Schedule</title>
 </head>
 
@@ -95,6 +95,16 @@
         </div> 
         <div class="page" id="Tasks">
           <nav>
+               <!-- success notification -->
+           <div id="notification" class="notification green-background">
+            <iconify-icon
+              icon="mdi:check-circle-outline"
+              style="color: black"
+              width="24"
+              height="24"
+            ></iconify-icon>
+            <p>The task was deleted</p>
+          </div>
             <div class="multitasking title">My tasks</div>     
             <div class="user-info">
               <button class="nav-link" data-target="Add" id="add_task">Add task</button>
@@ -102,19 +112,8 @@
               <span class="user_name" id="user_name"></span>
               
             </div>
-          </nav>
-               
+          </nav>        
           <div class="content-container">
-            <!-- success notification -->
-            <div id="notification" class="notification green-background">
-              <iconify-icon
-                icon="mdi:check-circle-outline"
-                style="color: black"
-                width="24"
-                height="24"
-              ></iconify-icon>
-              <p>The task was deleted</p>
-            </div>
             <!-- board view -->
             <div id="board-view" class="board-view">
               <!-- Here we'll dynamically populate tasks from the database -->
@@ -224,7 +223,7 @@
           <div id="edit-task-overlay" class="overlay edit-task-overlay hide">
               <div class="overlay-content pink-background">
                   <!-- Close button -->
-                  <button class="button circle-button blue-background flex justify-center items-center close-button" onclick="closeEditWindow()" id="close-button">X
+                  <button class="button circle-button blue-background flex justify-center items-center close-button" onclick="closeWindow()" id="close-button">X
                   </button>
                   <h1 class="header">Edit task</h1>
                   <form class="form" autocomplete="off">
@@ -287,6 +286,7 @@
     <script src="../Js Files/Network.js"></script>
     <script src="../Js Files/Server.js"></script>
     <script src="../Js Files/Tasks.js"></script>
+    
     
 
 </body>

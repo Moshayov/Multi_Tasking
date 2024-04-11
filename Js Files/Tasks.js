@@ -2,15 +2,12 @@
 const radioButtons = document.querySelectorAll("input[name='status-option']");
 const radioButtonsEdit = document.querySelectorAll("input[name='status-option-edit']");
 const boardView = document.getElementById("board-view");
-const setTaskOverlay = document.getElementById("set-task-overlay");
 const closeButtons = document.querySelectorAll(".close-button");
 const statusSelect = document.getElementById("status-select");
 const statusSelectEdit =  document.getElementById("status-select-edit");
 const statusDropdown = document.getElementById("status-dropdown");
 const statusDropdownEdit = document.getElementById("status-dropdown-edit");
 const taskItems = document.querySelectorAll(".task-item");
-const viewTaskOverlay = document.getElementById("view-task-overlay");
-const deleteTaskCTA = document.getElementById("delete-task-cta");
 const notification = document.getElementById("notification");
 //const current_user ="";
 let type_mission = "To do";

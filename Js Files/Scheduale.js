@@ -267,12 +267,16 @@ document.getElementById('delete-task-cta').addEventListener('click', function() 
   deleteTask(task_name); // קריאה לפונקציה שמבצעת את המחיקה
 });
 
-function deleteTask( taskName,username=current_user) {
-  console.log(current_user);
+function deleteTask( taskName,username=get_current_user()) {
+  console.log(username);
   const fxhr = new FXMLHttpRequest();
   fxhr.open("DELETE", "", true, null, null, taskName, username);
   fxhr.send("", () => {
-      alert("Task deleted successfully");
+       // show notification & hide it after a while
+  notification.classList.add("show");
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000);
   });
   fetchAndDisplayTasks(username);
   window.location.href="#Tasks";
